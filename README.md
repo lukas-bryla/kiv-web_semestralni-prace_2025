@@ -446,9 +446,3 @@ Postup:
 
 - Vrací JSON seznam akcí (např. pro externí použití nebo budoucí SPA frontend).
 - Lze rozšířit o parametry pro stejné filtrování jako `/events`.
-
----
-
-Tento dokument shrnuje architekturu a funkcionalitu aplikace EventHub.  
-Je připraven tak, aby pokryl požadavky zadání (role, registrace, moderace,
-tagy, Docker deployment) a zároveň sloužil jako referenční manuál pro další vývoj.\*\*\*
