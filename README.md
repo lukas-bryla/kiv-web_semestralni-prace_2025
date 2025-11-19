@@ -239,7 +239,7 @@ Postup:
 1. Naklonujte repozitář / zkopírujte projekt do adresáře:
 
    ```bash
-   git clone <repo> eventhub
+   git clone https://github.com/lukas-bryla/kiv-web_semestralni-prace_2025 eventhub
    cd eventhub
    ```
 
