@@ -276,13 +276,13 @@ Postup:
 6. Zastavení:
 
    ```bash
-   docker-compose down
+   docker compose down
    ```
 
    Pro smazání DB (volitelně):
 
    ```bash
-   docker-compose down -v
+   docker compose down -v
    ```
 
 ## Kompletní popis funkcí aplikace
