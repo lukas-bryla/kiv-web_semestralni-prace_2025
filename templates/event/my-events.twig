@@ -1,0 +1,50 @@
+{% extends "base.twig" %}
+
+{% block title %}Moje akce{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-wrap align-items-center justify-content-between mb-3">
+    <div>
+        <h1 class="mb-1">Moje akce</h1>
+        <p class="text-muted mb-0">Přehled akcí, na které jsi registrován.</p>
+    </div>
+</div>
+
+{% if events|length == 0 %}
+    <p class="text-muted">Zatím nejsi registrován na žádnou akci.</p>
+{% else %}
+    <div class="row">
+        {% for event in events %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 event-card">
+                    {% if event.image %}
+                        <img
+                            src="/uploads/{{ event.image }}"
+                            class="card-img-top"
+                            style="height:200px; object-fit:cover;"
+                            alt="{{ event.title }}"
+                        >
+                    {% else %}
+                        <img
+                            src="/assets/images/placeholder-event.webp"
+                            class="card-img-top"
+                            style="height:200px; object-fit:cover;"
+                            alt="Placeholder for {{ event.title }}"
+                        >
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ event.title }}</h5>
+                        <p class="card-text event-meta">
+                            {{ event.date|date('j. n. Y H:i') }} • {{ event.location }}
+                        </p>
+                        <p class="mb-2">
+                            <span class="badge bg-success">Registrováno</span>
+                        </p>
+                        <a href="/event/{{ event.id }}" class="btn btn-primary mt-auto">Detail akce</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,56 @@
+<footer class="bg-dark text-light py-4 mt-5">
+    <div class="container">
+        <div class="row">
+            <!-- Sekce About -->
+            <div class="col-md-4 mb-3">
+                <h5>About EventHub</h5>
+                <p class="small">Moderní platforma pro pořádání akcí, workshopů a konferencí. Připoj se a objevuj nové události!</p>
+            </div>
+
+            <!-- Sekce Links -->
+            <div class="col-md-4 mb-3">
+                <h5>Rychlé odkazy</h5>
+                <ul class="list-unstyled">
+                    <li><a href="/" class="text-light"><i class="bi bi-house-door me-2"></i>Domů</a></li>
+                    <li><a href="/events" class="text-light"><i class="bi bi-calendar-event me-2"></i>Akce</a></li>
+                    {% if not session.user %}
+                        <li><a href="/register" class="text-light"><i class="bi bi-person-plus me-2"></i>Registrace</a></li>
+                    {% endif %}
+                    <li>
+                        <a href="/moderator" class="text-light" {% if not session.user or not session.user.role in ['moderator','admin','superadmin'] %}style="display:none;"{% endif %}>
+                            <i class="bi bi-shield-check me-2"></i>Moderátor
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin" class="text-light" {% if not session.user or not session.user.role in ['admin','superadmin'] %}style="display:none;"{% endif %}>
+                            <i class="bi bi-gear me-2"></i>Admin
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Sekce Social + CTA -->
+            <div class="col-md-4 mb-3">
+                <h5>Sleduj nás</h5>
+                <div class="d-flex mb-3">
+                    <a href="https://twitter.com" class="text-light me-3"><i class="bi bi-twitter fs-4"></i></a>
+                    <a href="https://facebook.com" class="text-light me-3"><i class="bi bi-facebook fs-4"></i></a>
+                    <a href="https://instagram.com" class="text-light"><i class="bi bi-instagram fs-4"></i></a>
+                </div>
+                <h5>Přihlaš se k newsletteru</h5>
+                <form action="/newsletter" method="post" class="d-flex">
+                    <input type="email" name="email" placeholder="Tvůj email" class="form-control me-2 small" required>
+                    <button type="submit" class="btn btn-primary btn-sm">Odebírat</button>
+                </form>
+            </div>
+        </div>
+
+        <hr class="border-light opacity-25">
+        <div class="text-center small">
+            <p>&copy; {{ "now"|date("Y") }} EventHub | Všechna práva vyhrazena. |
+                <a href="/privacy" class="text-light">Ochrana soukromí</a> |
+                <a href="/terms" class="text-light">Podmínky použití</a>
+            </p>
+        </div>
+    </div>
+</footer>

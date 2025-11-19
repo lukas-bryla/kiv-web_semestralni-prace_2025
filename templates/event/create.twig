@@ -1,0 +1,79 @@
+{% extends "base.twig" %}
+
+{% block title %}Přidat akci{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Přidat novou akci</h1>
+
+<form method="POST" action="/event/store" enctype="multipart/form-data" class="card p-4" novalidate>
+    <div class="mb-3">
+        <label class="form-label">Název akce *</label>
+        <input type="text" name="title" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Popis *</label>
+        <textarea name="description" id="editor" required></textarea>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Datum a čas *</label>
+            <input type="datetime-local" name="date" class="form-control" required>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Kapacita *</label>
+            <input type="number" name="capacity" min="1" class="form-control" required>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Místo konání *</label>
+        <input type="text" name="location" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label d-block">Tagy</label>
+        {% if allTags is defined and allTags %}
+            <div class="d-flex flex-wrap gap-2">
+                {% for tag in allTags %}
+                    <div class="form-check form-check-inline">
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="tags[]"
+                            value="{{ tag.id }}"
+                            id="tag-{{ tag.id }}"
+                        >
+                        <label class="form-check-label small" for="tag-{{ tag.id }}">{{ tag.name }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="form-text">Vyber jeden nebo více tagů, které nejlépe popisují akci.</div>
+        {% else %}
+            <p class="text-muted small mb-0">Žádné tagy nejsou k dispozici.</p>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Plakát / obrázek (max 5 MB, JPG/PNG/GIF)</label>
+        <input type="file" name="image" accept="image/*" class="form-control">
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-lg">Odeslat ke schválení</button>
+</form>
+
+<script>
+    ClassicEditor
+        .create(document.querySelector('#editor'), {
+            toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote']
+        })
+        .then(editor => {
+            const form = editor.sourceElement.closest('form');
+            form.addEventListener('submit', () => {
+                editor.updateSourceElement();
+            });
+        })
+        .catch(error => console.error(error));
+</script>
+{% endblock %}

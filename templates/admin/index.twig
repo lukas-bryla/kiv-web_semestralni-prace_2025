@@ -1,0 +1,93 @@
+{% extends "base.twig" %}
+
+{% block title %}Administrační panel{% endblock %}
+
+{% block content %}
+<h1>Administrační panel</h1>
+
+<h3>Čekající akce na schválení</h3>
+{% if pendingEvents|length == 0 %}
+    <p>Žádné čekající akce.</p>
+{% else %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Název</th>
+                <th>Autor</th>
+                <th>Akce</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for event in pendingEvents %}
+            <tr>
+                <td>{{ event.id }}</td>
+                <td>{{ event.title }}</td>
+                <td>{{ event.author }}</td>
+                <td>
+                    <form method="POST" action="/admin/approve/{{ event.id }}" style="display:inline;">
+                        <button type="submit" class="btn btn-success btn-sm">Schválit</button>
+                    </form>
+                    <form method="POST" action="/admin/reject/{{ event.id }}" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Opravdu odmítnout a smazat?');">Odmítnout</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+<h3>Uživatelé</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Uživatel</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Akce</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+        <tr {% if user.id == 1 %}class="table-warning"{% endif %}>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+                {% if user.id == 1 %}
+                    <em>SuperAdmin – nelze měnit</em>
+                {% else %}
+                    {% if session.user and session.user.role == 'admin' and user.role == 'admin' %}
+                        <span class="badge bg-secondary">admin</span>
+                        <small class="text-muted d-block">Roli admina může měnit jen superadmin.</small>
+                    {% else %}
+                        <form method="POST" action="/admin/role/{{ user.id }}">
+                            <select name="new_role" onchange="this.form.submit()" class="form-select form-select-sm">
+                                <option value="user" {% if user.role == 'user' %}selected{% endif %}>user</option>
+                                <option value="moderator" {% if user.role == 'moderator' %}selected{% endif %}>moderator</option>
+                                <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>admin</option>
+                            </select>
+                        </form>
+                    {% endif %}
+                {% endif %}
+            </td>
+            <td>
+                {% if user.id == 1 %}
+                    <em>Bez akcí</em>
+                {% else %}
+                    {% if session.user and session.user.role == 'admin' and user.role == 'admin' %}
+                        <em class="text-muted">Nelze mazat jiné adminy.</em>
+                    {% else %}
+                        <form method="POST" action="/admin/delete/{{ user.id }}" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Opravdu smazat uživatele?');">Smazat</button>
+                        </form>
+                    {% endif %}
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
