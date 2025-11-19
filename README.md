@@ -232,7 +232,7 @@ Podle `database/install.sql`:
 
 Předpoklady:
 
-- nainstalovaný Docker a docker-compose.
+- nainstalovaný Docker
 
 Postup:
 
@@ -246,7 +246,7 @@ Postup:
 2. Spusťte kontejnery:
 
    ```bash
-   docker-compose up -d
+   docker compose up -d
    ```
 
    Vytvoří se tyto služby:
