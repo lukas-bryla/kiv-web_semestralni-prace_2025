@@ -7,6 +7,7 @@
 - **Datum vytvoření:** 18. 11. 2025
 - **Předmět:** KIV/WEB – Webové technologie
 - **Název aplikace:** EventHub – správa akcí a registrací
+- **Github link:** https://github.com/lukas-bryla/kiv-web_semestralni-prace_2025
 
 ## URL aplikace
 
